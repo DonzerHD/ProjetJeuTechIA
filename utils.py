@@ -1,11 +1,11 @@
 import random
 
-vie_joueur = 50
+def affichage(vie_joueur, vie_monstre , nombre_potions):
+    print("="*20)
+    print("Joueur :",vie_joueur," PV | Monstre :",vie_monstre," PV | Potions :",nombre_potions)
+    print("="*20)
 
-def affichage():
-    pass
-
-def attaquer(vie):
+def attaquer(vie_joueur, vie_monstre):
     degat = random.randint(0, 10)
     if degat > 7:
         print("coup critique")
@@ -13,39 +13,43 @@ def attaquer(vie):
         print("coup normal")
     elif degat == 0:
         print("Esquive")
-    vie = vie - degat 
-    return vie
+    vie_monstre = vie_monstre- degat 
+    return vie_joueur , vie_monstre
     
 
 
-#fonction pour les fonctions
-def les_potions():
-    potions = random.randint(15, 50)
-    nombre_potions = 3
-    vie_joueur = 50
-    if vie_joueur < 50 :
-        if vie_joueur >= 1 and vie_joueur < 50 and nombre_potions >=1: 
-           vie_joueur += random.randint(1, (50 -vie_joueur))
-    else: print("il n'est pas nécessaire de prendre de potion")
-    print("Vie maximum, vous pouvez maintenant attaquer !!!")
-    return vie_joueur
+def les_potions(vie_joueur, vie_monstre, nombre_potions):
+    if vie_joueur == 50:
+        print("Il n'est pas necessaire de prendre une potion")
+        choix_du_joueur(vie_joueur, vie_monstre, nombre_potions)
+    elif nombre_potions == 0:
+            print("Toutes les potions sont utilisées")
+            choix_du_joueur(vie_joueur, vie_monstre , nombre_potions)
+    elif vie_joueur < 50 :
+           nombre_potions -= 1
+           vie_joueur += random.randint(1, (50 - vie_joueur))
+    return vie_joueur , vie_monstre , nombre_potions
 
-
-def choix_du_joueur():
+def choix_du_joueur(vie_joueur, vie_monstre, nombre_potions):
     choix = int(input("Entrez 1 pour attaquer ou 2 pour prendre une potion de vie : "))
     tour_fini= False
     while not tour_fini:
         if choix == 1:
             tour_fini = True
-            attaquer()
+            vie_joueur, vie_monstre = attaquer(vie_joueur, vie_monstre)
+            return vie_joueur, vie_monstre , nombre_potions
         elif choix == 2:
             tour_fini = True
-            les_potions()
+            vie_joueur, vie_monstre , nombre_potions = les_potions(vie_joueur, vie_monstre, nombre_potions)
+            return vie_joueur, vie_monstre , nombre_potions
         else:
             choix = int(input("Erreur, entrez à nouveau votre choix, 1 pour attaquer ou 2 pour prendre la potion de soin :"))
-def verification_vitoire_defaite(vie, partie_en_cours):
-     if vie_joueur <= 0:
-         print("Le Monstre a gg")
-     elif vie_monstre <= 0:
-         print("Le Joueur a gg")
-     partie_en_cours = False
+
+def verification_vitoire_defaite(vie_joueur, vie_monstre):
+    if vie_joueur <= 0:
+        print("Le Monstre a gg")
+        return False
+    elif vie_monstre <= 0:
+        print("Le Joueur a gg")
+        return False
+    return True
