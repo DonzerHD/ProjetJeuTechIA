@@ -1,23 +1,7 @@
+from utils import affichage , attaque_bot , les_potions , choix_du_joueur , attaquer , verification_vitoire_defaite
+
 vie_joueur = 50
 vie_monstre = 50
-
-def affichage():
-    pass
-
-def attaquer(vie):
-    pass
-
-def les_potions():
-    pass
-
-def choix_du_joueur():
-    pass
-
-def verification_vitoire_defaite(vie, partie_en_cours):
-    pass
-
-def attaque_bot():
-    pass
 
 
 partie_en_cours = True
