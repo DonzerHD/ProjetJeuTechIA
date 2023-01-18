@@ -4,7 +4,11 @@ from utils import affichage , les_potions , choix_du_joueur , attaquer , verific
 class TestJeux(unittest.TestCase):
 
     def test_attaquer(self):
-        pass
+        vie_joueur = 100
+        vie_monstre = 50
+
+        vie_joueur, vie_monstre = attaquer(vie_joueur, vie_monstre)
+        self.assertLess(vie_monstre, 50)
 
     def test_les_potions(self):
         pass
