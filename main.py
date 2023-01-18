@@ -1,4 +1,4 @@
-from utils import affichage , attaque_bot , les_potions , choix_du_joueur , attaquer , verification_vitoire_defaite
+from utils import affichage , les_potions , choix_du_joueur , attaquer , verification_vitoire_defaite
 
 vie_joueur = 50
 vie_monstre = 50
