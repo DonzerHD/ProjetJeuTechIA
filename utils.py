@@ -1,9 +1,22 @@
 import random
+import csv
 
 
-def score(nombre_victoire, vie_monstre):
-    if vie_monstre <= 0: 
-        nombre_victoire += 1
+# Faire les try catch
+# Finir le csv
+# Couleur console
+# Signature des fonctions
+
+
+def score(nombre_victoire, vie_monstre, pseudo_utilisateur):
+    if vie_monstre <= 0:
+        if nombre_victoire >= 1:
+            pass
+        elif nombre_victoire == 0:
+            nombre_victoire += 1
+            with open('scores.csv', 'a', newline='') as fichier:
+                writer = csv.writer(fichier, delimiter=',')      
+                writer.writerow([pseudo_utilisateur] + [nombre_victoire])   
     return nombre_victoire
     
 def affichage(vie_joueur, vie_monstre , nombre_potions , joueur_nom, monstre_nom, nombre_victoire):
@@ -19,7 +32,7 @@ def affichage(vie_joueur, vie_monstre , nombre_potions , joueur_nom, monstre_nom
     print("Héros[",joueur_nom,"] :",vie_joueur," PV | Méchants[",monstre_nom,"] :" , vie_monstre ," PV | Potions :",nombre_potions , " Score :", nombre_victoire)
     print("="*20)
 
-def attaquer(vie_personne_attaquee):
+def attaquer(vie_personne_attaquee:int) -> int:
     """
     La fonction attaquer() simule une attaque contre une personne. Elle génère aléatoirement des dégâts infligés par l'attaque et affiche un message en conséquence.
     Args:
