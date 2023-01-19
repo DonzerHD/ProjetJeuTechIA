@@ -1,6 +1,6 @@
 import unittest
 import random
-from utils import affichage , les_potions , choix_du_joueur , attaquer
+from utils import affichage , les_potions , attaquer
 
 class TestJeux(unittest.TestCase):
 
@@ -40,24 +40,7 @@ class TestJeux(unittest.TestCase):
         self.assertGreaterEqual(les_potions(45,50,3)[0],45)
         self.assertEqual(les_potions(12,50,2)[1],50)
         self.assertLessEqual(les_potions(37,50,1)[2],0)
-        
-        
-    
-    
-   
-        
-        
-    def test_choix_du_joueur(self):
-        pass
-        # vie_joueur = 50
-        # vie_monstre = 50
-        # nombre_potions = 3
-        # choix = 1
-        # retour = choix_du_joueur(vie_joueur, vie_monstre, nombre_potions)
-        # self.assertGreater(retour[0], vie_joueur)
-        # self.assertLess(retour[1], vie_monstre)
-        # self.assertEqual(retour[2], nombre_potions)
-    
+          
     def test_verification_victoire_defaite(self):
         pass
     

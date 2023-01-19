@@ -1,6 +1,12 @@
 import random
 
-def affichage(vie_joueur, vie_monstre , nombre_potions):
+
+def score(nombre_victoire, vie_monstre):
+    if vie_monstre <= 0: 
+        nombre_victoire += 1
+    return nombre_victoire
+    
+def affichage(vie_joueur, vie_monstre , nombre_potions , joueur_nom, monstre_nom, nombre_victoire):
     """
     La fonction affichage() affiche l'état actuel du joueur, du monstre et du nombre de potions disponibles.
 
@@ -8,9 +14,9 @@ def affichage(vie_joueur, vie_monstre , nombre_potions):
     vie_joueur (int): la vie actuelle du joueur
     vie_monstre (int): la vie actuelle du monstre
     nombre_potions (int): le nombre de potions disponibles pour le joueur
-    """
+    """   
     print("="*20)
-    print("Joueur :",vie_joueur," PV | Monstre :",vie_monstre," PV | Potions :",nombre_potions)
+    print("Héros[",joueur_nom,"] :",vie_joueur," PV | Méchants[",monstre_nom,"] :" , vie_monstre ," PV | Potions :",nombre_potions , " Score :", nombre_victoire)
     print("="*20)
 
 def attaquer(vie_personne_attaquee):
@@ -84,21 +90,31 @@ def choix_du_joueur(vie_joueur, vie_monstre, nombre_potions):
         else:
             choix = int(input("Erreur, entrez à nouveau votre choix, 1 pour attaquer ou 2 pour prendre la potion de soin :"))
 
-def verification_victoire_defaite(vie_joueur, vie_monstre):
+def verification_victoire_defaite(vie_joueur, vie_monstre, nombre_potions, monstre , adversaire):
     """
     La fonction verification_victoire_defaite() vérifie si le jeu est terminé en raison d'une victoire ou d'une défaite d'un des joueurs.
 
     Args:
     vie_joueur (int): la vie actuelle du joueur
     vie_monstre (int): la vie actuelle du monstre
+    nombre_potions (int): le nombre de potions disponibles pour le joueur
+    monstre (list): liste des monstres
+    adversaire (str): nom de monstre actuel
 
     Returns:
-    bool: un booléen indiquant si le jeu est terminé (False) ou pas (True)
+    tuple: un tuple contenant un booléen indiquant si le jeu est terminé (False) ou pas (True), la vie mise à jour du joueur, de la vie du monstre, du nombre de potions restantes et du nom du monstre suivant
+    (bool, vie_joueur, vie_monstre, nombre_potions, adversaire)
     """
     if vie_joueur <= 0:
-        print("Le Monstre a gg")
-        return False
+        print("Perdu")
+        return False , vie_joueur , vie_monstre , nombre_potions , adversaire
     elif vie_monstre <= 0:
-        print("Le Joueur a gg")
-        return False
-    return True
+        print("Monstre battu vous passez au niveau suivant : ")
+        vie_monstre = 50
+        nombre_potions += random.randint(1,3)
+        vie_joueur += random.randint(25, 50)
+        if vie_joueur > 50:
+            vie_joueur = 50
+        return True , vie_joueur , vie_monstre , nombre_potions , monstre[random.randint(0,3)]
+    else:
+        return True , vie_joueur , vie_monstre , nombre_potions , adversaire
