@@ -7,6 +7,23 @@ import pandas as pd
 # Couleur console
 # Signature des fonctions
 
+def afficher_tableau_scores():
+    """
+    La fonction afficher_tableau_scores() lit les données d'un fichier CSV et les affiche sous forme de tableau.
+
+    Args:
+    nom_fichier (str): nom du fichier CSV contenant les scores
+
+    Returns:
+    None
+    """
+
+    # Lire les données à partir du fichier CSV
+    scores = pd.read_csv("scores.csv")
+
+    # Afficher le tableau des scores
+    print(scores)
+
 
 def score(nombre_victoire : int, vie_monstre : int, pseudo_utilisateur :int) -> int:
     """Cette fonction permet de mettre à jour le score d'un utilisateur dans un fichier CSV. 
@@ -135,6 +152,7 @@ def verification_victoire_defaite(vie_joueur: int, vie_monstre: int, nombre_poti
     """
     if vie_joueur <= 0:
         print("Perdu")
+        afficher_tableau_scores()
         return False , vie_joueur , vie_monstre , nombre_potions , adversaire
     elif vie_monstre <= 0:
         print("Monstre battu vous passez au niveau suivant : ")
