@@ -148,7 +148,7 @@ def choix_du_joueur(vie_joueur: int, vie_monstre: int, nombre_potions: int):
                 choix = int(input("Erreur, entrez à nouveau votre choix, 1 pour attaquer ou 2 pour prendre la potion de soin :"))
     except ValueError:
             print("Erreur , entrez un chiffre . ")
-            choix_du_joueur(vie_joueur, vie_monstre, nombre_potions)
+            return choix_du_joueur(vie_joueur, vie_monstre, nombre_potions)
                     
 
 def verification_victoire_defaite(vie_joueur: int, vie_monstre: int, nombre_potions: int, monstre: list[str] , adversaire: str):
