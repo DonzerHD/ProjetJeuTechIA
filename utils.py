@@ -1,6 +1,6 @@
 import random
 import csv
-
+import pandas as pd
 
 # Faire les try catch
 # Finir le csv
@@ -9,15 +9,30 @@ import csv
 
 
 def score(nombre_victoire, vie_monstre, pseudo_utilisateur):
+    """Cette fonction permet de mettre à jour le score d'un utilisateur dans un fichier CSV. 
+    Si l'utilisateur existe déjà, son score est incrémenté d'une unité. 
+    Sinon, un nouvel utilisateur est ajouté avec un score initial de 1.
+
+    Args:
+        nombre_victoire (int): Le nombre de victoires de l'utilisateur.
+        vie_monstre (int): La vie restante du monstre.
+        pseudo_utilisateur (str): Le pseudo de l'utilisateur.
+
+    Returns:
+        int: Le nombre de victoires de l'utilisateur mis à jour.
+    """
     if vie_monstre <= 0:
-        if nombre_victoire >= 1:
-            pass
-        elif nombre_victoire == 0:
+        df = pd.read_csv('scores.csv')
+        if pseudo_utilisateur in df['Pseudo'].values:
+            user_index = df.index[df['Pseudo'] == pseudo_utilisateur][0]
+            nombre_victoire = df.at[user_index, 'score']+1
+            df.at[user_index, 'score'] = nombre_victoire
+        else:
+            df = df.append({'Pseudo': pseudo_utilisateur, 'score': nombre_victoire+1}, ignore_index=True)
             nombre_victoire += 1
-            with open('scores.csv', 'a', newline='') as fichier:
-                writer = csv.writer(fichier, delimiter=',')      
-                writer.writerow([pseudo_utilisateur] + [nombre_victoire])   
+        df.to_csv('scores.csv', index=False)
     return nombre_victoire
+
     
 def affichage(vie_joueur, vie_monstre , nombre_potions , joueur_nom, monstre_nom, nombre_victoire):
     """
