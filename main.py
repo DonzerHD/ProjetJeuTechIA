@@ -1,10 +1,12 @@
 from utils import affichage , choix_du_joueur , attaquer , verification_victoire_defaite , score
 import random
+import colorama
+from colorama import Fore, Back, Style
 
 vie_joueur = 50
 vie_monstre = 50
 nombre_potions = 3
-monstre = ["Thomas" , "Dylan" , "Saber" , "Karim"]
+monstre = ["Thomas" , "Dylan" , "Saber" , "Karim", "Manu","Evgeni","Yvette","Myriam","David","Rola","Dominique","Agathe","Manon","Amin","Jose","Rubic","Jonathan","Ahmad","Antonin","Maxime"]
 joueur_nom = ["Charles" , "Antoine"]
 nombre_victoire = 0
 
