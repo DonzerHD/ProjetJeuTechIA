@@ -1,10 +1,15 @@
 import random
 import pandas as pd
+import colorama
+from colorama import Fore, Back, Style
 
 # Faire les try catch
 # Finir le csv
 # Couleur console
 # Signature des fonctions
+
+def ajouter_couleur(couleur, message):
+    print(couleur + message + Style.RESET_ALL)
 
 def afficher_tableau_scores():
     """
@@ -59,9 +64,9 @@ def affichage(vie_joueur: int, vie_monstre: int , nombre_potions : int, joueur_n
     vie_monstre (int): la vie actuelle du monstre
     nombre_potions (int): le nombre de potions disponibles pour le joueur
     """   
-    print("="*20)
-    print("Héros[",joueur_nom,"] :",vie_joueur," PV | Méchants[",monstre_nom,"] :" , vie_monstre ," PV | Potions :",nombre_potions , " Score :", nombre_victoire)
-    print("="*20)
+    ajouter_couleur(Fore.BLUE,"="*85)
+    print("Héros","[",joueur_nom,"]",":",vie_joueur,"PV","|","Méchants","[", monstre_nom,"]", ":",vie_monstre ,"PV","|","Potions",":",nombre_potions ," Score ",":", nombre_victoire)
+    ajouter_couleur(Fore.BLUE,"="*85)
 
 def attaquer(vie_personne_attaquee:int) -> int:
     """
@@ -73,11 +78,11 @@ def attaquer(vie_personne_attaquee:int) -> int:
     """
     degat = random.randint(0, 10)
     if degat > 7:
-        print("coup critique")
+        ajouter_couleur(Fore.RED,"coup critique")
     elif degat < 7 and degat > 0:
         print("coup normal")
     elif degat == 0:
-        print("Esquive")
+        ajouter_couleur(Fore.CYAN,"Esquive")
     vie_personne_attaquee = vie_personne_attaquee - degat 
     return vie_personne_attaquee
     
@@ -154,7 +159,7 @@ def verification_victoire_defaite(vie_joueur: int, vie_monstre: int, nombre_poti
         afficher_tableau_scores()
         return False , vie_joueur , vie_monstre , nombre_potions , adversaire
     elif vie_monstre <= 0:
-        print("Monstre battu vous passez au niveau suivant : ")
+        ajouter_couleur(Fore.GREEN,"VICTOIRE ! Vous passez au niveau suivant ! ")
         vie_monstre = 50
         nombre_potions += random.randint(1,3)
         vie_joueur += random.randint(25, 50)
