@@ -3,13 +3,18 @@ import pandas as pd
 import colorama
 from colorama import Fore, Back, Style
 
-# Faire les try catch
-# Finir le csv
-# Couleur console
-# Signature des fonctions
-
 def ajouter_couleur(couleur, message):
-    print(couleur + message + Style.RESET_ALL)
+    """
+    Cette fonction prend en entrée une couleur et un message 
+    et affiche le message en utilisant la couleur spécifiée.
+    
+    Args:
+        couleur (str): La couleur à utiliser pour afficher le message.
+        message (str): Le message à afficher.
+    """
+    if type(message) != str:
+        message = str(message)
+    return couleur + message + Style.RESET_ALL
 
 def afficher_tableau_scores():
     """
@@ -64,9 +69,11 @@ def affichage(vie_joueur: int, vie_monstre: int , nombre_potions : int, joueur_n
     vie_monstre (int): la vie actuelle du monstre
     nombre_potions (int): le nombre de potions disponibles pour le joueur
     """   
-    ajouter_couleur(Fore.BLUE,"="*85)
-    print("Héros","[",joueur_nom,"]",":",vie_joueur,"PV","|","Méchants","[", monstre_nom,"]", ":",vie_monstre ,"PV","|","Potions",":",nombre_potions ," Score ",":", nombre_victoire)
-    ajouter_couleur(Fore.BLUE,"="*85)
+    print(ajouter_couleur(Fore.BLUE,"="*85))
+    print("Héros", ajouter_couleur(Fore.GREEN, "["+joueur_nom+"]"), ajouter_couleur(Fore.GREEN, ":"+str(vie_joueur)+" PV"), "|",
+          "Méchants", ajouter_couleur(Fore.RED, "["+monstre_nom+"]"), ajouter_couleur(Fore.RED, ":"+str(vie_monstre)+" PV"), "|",
+          "Potions", ajouter_couleur(Fore.MAGENTA, ":"+str(nombre_potions)), " Score ", ajouter_couleur(Fore.YELLOW, ":"+str(nombre_victoire)))
+    print(ajouter_couleur(Fore.BLUE,"="*85))
 
 def attaquer(vie_personne_attaquee:int) -> int:
     """
@@ -78,11 +85,11 @@ def attaquer(vie_personne_attaquee:int) -> int:
     """
     degat = random.randint(0, 10)
     if degat > 7:
-        ajouter_couleur(Fore.RED,"coup critique")
+        print(ajouter_couleur(Fore.RED,"coup critique"))
     elif degat < 7 and degat > 0:
         print("coup normal")
     elif degat == 0:
-        ajouter_couleur(Fore.CYAN,"Esquive")
+        print(ajouter_couleur(Fore.CYAN,"Esquive"))
     vie_personne_attaquee = vie_personne_attaquee - degat 
     return vie_personne_attaquee
     
@@ -125,19 +132,24 @@ def choix_du_joueur(vie_joueur: int, vie_monstre: int, nombre_potions: int):
     tuple: un tuple contenant la vie mise à jour du joueur, de la vie du monstre et du nombre de potions restantes après le choix du joueur.
     (vie_joueur, vie_monstre, nombre_potions)
     """
-    choix = int(input("Entrez 1 pour attaquer ou 2 pour prendre une potion de vie : "))
-    tour_fini= False
-    while not tour_fini:
-        if choix == 1:
-            tour_fini = True
-            vie_monstre = attaquer(vie_monstre)
-            return vie_joueur, vie_monstre , nombre_potions
-        elif choix == 2:
-            tour_fini = True
-            vie_joueur, vie_monstre , nombre_potions = les_potions(vie_joueur, vie_monstre, nombre_potions)
-            return vie_joueur, vie_monstre , nombre_potions
-        else:
-            choix = int(input("Erreur, entrez à nouveau votre choix, 1 pour attaquer ou 2 pour prendre la potion de soin :"))
+    try:
+        choix = int(input("Entrez 1 pour attaquer ou 2 pour prendre une potion de vie : "))
+        tour_fini= False
+        while not tour_fini:
+            if choix == 1:
+                tour_fini = True
+                vie_monstre = attaquer(vie_monstre)
+                return vie_joueur, vie_monstre , nombre_potions
+            elif choix == 2:
+                tour_fini = True
+                vie_joueur, vie_monstre , nombre_potions = les_potions(vie_joueur, vie_monstre, nombre_potions)
+                return vie_joueur, vie_monstre , nombre_potions
+            else:
+                choix = int(input("Erreur, entrez à nouveau votre choix, 1 pour attaquer ou 2 pour prendre la potion de soin :"))
+    except ValueError:
+            print("Erreur , entrez un chiffre . ")
+            choix_du_joueur(vie_joueur, vie_monstre, nombre_potions)
+                    
 
 def verification_victoire_defaite(vie_joueur: int, vie_monstre: int, nombre_potions: int, monstre: list[str] , adversaire: str):
     """
@@ -155,16 +167,16 @@ def verification_victoire_defaite(vie_joueur: int, vie_monstre: int, nombre_poti
     (bool, vie_joueur, vie_monstre, nombre_potions, adversaire)
     """
     if vie_joueur <= 0:
-        print("Perdu")
+        print(ajouter_couleur(Fore.RED,"Partie PERDU ! FIN DE LA PARTIE TU ES VRAIMENT NUL !!"))
         afficher_tableau_scores()
         return False , vie_joueur , vie_monstre , nombre_potions , adversaire
     elif vie_monstre <= 0:
-        ajouter_couleur(Fore.GREEN,"VICTOIRE ! Vous passez au niveau suivant ! ")
+        print(ajouter_couleur(Fore.GREEN,"VICTOIRE ! Vous passez au niveau suivant ! "))
         vie_monstre = 50
         nombre_potions += random.randint(1,3)
         vie_joueur += random.randint(25, 50)
         if vie_joueur > 50:
             vie_joueur = 50
-        return True , vie_joueur , vie_monstre , nombre_potions , monstre[random.randint(0,3)]
+        return True , vie_joueur , vie_monstre , nombre_potions , monstre[random.randint(0,18)]
     else:
         return True , vie_joueur , vie_monstre , nombre_potions , adversaire
