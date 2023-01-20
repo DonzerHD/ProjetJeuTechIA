@@ -112,11 +112,11 @@ def les_potions(vie_joueur: int, vie_monstre: int, nombre_potions: int):
         print("Il n'est pas necessaire de prendre une potion")
         choix_du_joueur(vie_joueur, vie_monstre, nombre_potions)
     elif nombre_potions == 0:
-            print("Toutes les potions sont utilisées")
-            choix_du_joueur(vie_joueur, vie_monstre , nombre_potions)
+        print("Toutes les potions sont utilisées")
+        choix_du_joueur(vie_joueur, vie_monstre , nombre_potions)
     elif vie_joueur < 50 :
-           nombre_potions -= 1
-           vie_joueur += random.randint(1, (50 - vie_joueur))
+        nombre_potions -= 1
+        vie_joueur += random.randint(1, (50 - vie_joueur))
     return vie_joueur , vie_monstre , nombre_potions
 
 def choix_du_joueur(vie_joueur: int, vie_monstre: int, nombre_potions: int):
